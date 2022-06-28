@@ -43,11 +43,11 @@ public class SubjectScoreController {
 
     @GetMapping ("/ScoreByDate/{stuDate}")
     public ResultVo selectScoreByDate(@PathVariable("stuDate") String date){
-        List<SubjectScoreDO> StudentListScoreByDate = subjectScoreService.scoreByDate(date);
-        if(StudentListScoreByDate == null ){
+        List<SubjectScoreDO> studentListScoreByDate = subjectScoreService.scoreByDate(date);
+        if(studentListScoreByDate == null ){
             return CommonResult.fail();
         }else{
-            return CommonResult.success(StudentListScoreByDate);
+            return CommonResult.success(studentListScoreByDate);
         }
     }
     @PostMapping ("/ScoreByPage")
@@ -62,6 +62,15 @@ public class SubjectScoreController {
             return CommonResult.fail();
         }else{
             return CommonResult.success(StudentListFuzzyQuery);
+        }
+    }
+    @PostMapping("/avgSubjectScore")
+    public ResultVo avgSubjectScore(){
+        Map<String,Double> map = subjectScoreService.avgSubjectScore();
+        if(map == null){
+            return CommonResult.fail();
+        }else{
+            return CommonResult.success(map);
         }
     }
 }

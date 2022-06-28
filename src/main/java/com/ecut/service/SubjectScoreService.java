@@ -47,4 +47,11 @@ public interface SubjectScoreService extends IService<SubjectScoreDO> {
      * @return
      */
     List<SubjectScoreDO> scoreFuzzyQuery(String subject);
+
+    /**
+     * 实现每门科目平均分的计算
+     *
+     * @return map集合（科目，平均分）
+     */
+    Map<String,Double> avgSubjectScore();
 }

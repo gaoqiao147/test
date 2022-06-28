@@ -13,11 +13,9 @@ import com.ecut.vo.PageVo;
 import com.ecut.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.events.Event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -86,5 +84,64 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
         queryWrapper.like(StringUtils.isNotBlank(subject),"subject",subject);
         List<SubjectScoreDO> scoreFuzzyQueryList = subjectScoreMapper.selectList(queryWrapper);
         return scoreFuzzyQueryList;
+    }
+
+    @Override
+    public Map<String, Double> avgSubjectScore() {
+        //定义总成绩，平均分，科目数量,科目名字
+        Integer totalScore1; Integer totalScore2 = 0; Double avgScore; Double subjectNum = 1.0; String subjectName1; String subjectName2 = null;Double id = 0.0;
+        Map<String,String> subjectScore = new HashMap<>();
+        Map<Integer,String> subjectScore1 = new HashMap<>();
+        Map<String,Double> subjectScore2 = new HashMap<>();
+        Map<String,Double> subjectScore3 = new HashMap<>();
+        Map<String,Integer> subjectScore4 = new HashMap<>();
+        /**
+         * 1.查询出所有的科目，把科目相同的总成绩先算出来
+         * 2.总成绩除以总学学生数量
+         * 3.将科目和平均分分别放到map集合中
+         */
+        List<SubjectScoreDO> allSubjectList = subjectScoreMapper.selectList(null);
+        System.out.println(allSubjectList);
+        for (int i = 0; i < allSubjectList.size(); i++) {
+            subjectName1 = allSubjectList.get(i).getSubject();
+            totalScore1 = allSubjectList.get(i).getScore();
+            subjectScore1.put(i,subjectName1);
+            subjectScore.put(subjectName1,subjectName1);
+            System.out.println(subjectScore1);
+            System.out.println(subjectScore.size());
+            System.out.println(subjectName1 + "=================" + totalScore1);
+            for (int j = subjectScore.size(); j > 0; j--) {
+                int flag = subjectScore.size();
+                flag -- ;
+                System.out.println("j= "+flag);
+                if((!Objects.equals(subjectName1, subjectScore1.get(j))) && (flag == 1)){
+                    System.out.println("==========不等于=============");
+                    subjectNum = 1.0;
+                    totalScore2 = totalScore1;
+                    subjectName2 = subjectName1;
+                    System.out.println(subjectScore2);
+                    avgScore = totalScore2 / subjectNum;
+                    subjectScore2.put(subjectName2,subjectNum);
+                    subjectScore3.put(subjectName2,avgScore);
+                    subjectScore4.put(subjectName2,totalScore2);
+                    System.out.println("======================不等于===================================" + subjectScore2);
+                    break;
+                }
+                if(Objects.equals(subjectName1, subjectScore1.get(j+1))){
+                    System.out.println("==========等于=============");
+                    subjectNum = subjectScore2.get(subjectName1);
+                    subjectNum = subjectNum +1;
+                    totalScore2 = subjectScore4.get(subjectName1);
+                    totalScore2 = totalScore1 + totalScore2;
+                    System.out.println(subjectScore2);
+                    avgScore = totalScore2 / subjectNum;
+                    subjectScore2.put(subjectName2,subjectNum);
+                    subjectScore3.put(subjectName2,avgScore);
+                    System.out.println("========================等于=================================" + subjectScore2);
+                    break;
+                }
+            }
+        }
+        return subjectScore3;
     }
 }
