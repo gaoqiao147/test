@@ -54,4 +54,11 @@ public interface SubjectScoreService extends IService<SubjectScoreDO> {
      * @return map集合（科目，平均分）
      */
     Map<String,Double> avgSubjectScore();
+
+    /**
+     * 学生成绩echarts图数据
+     *
+     * @return 学生成绩map集合
+     */
+    Map<String,Object> stuScore();
 }

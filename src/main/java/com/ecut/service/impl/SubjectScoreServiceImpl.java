@@ -2,6 +2,7 @@ package com.ecut.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecut.model.SubjectScoreDO;
@@ -109,13 +110,11 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
             subjectScore.put(subjectName1,subjectName1);
             System.out.println(subjectScore1);
             System.out.println(subjectScore.size());
-            System.out.println(subjectName1 + "=================" + totalScore1);
             for (int j = subjectScore.size(); j > 0; j--) {
                 int flag = subjectScore.size();
                 flag -- ;
                 System.out.println("j= "+flag);
                 if((!Objects.equals(subjectName1, subjectScore1.get(j))) && (flag == 1)){
-                    System.out.println("==========不等于=============");
                     subjectNum = 1.0;
                     totalScore2 = totalScore1;
                     subjectName2 = subjectName1;
@@ -124,11 +123,9 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
                     subjectScore2.put(subjectName2,subjectNum);
                     subjectScore3.put(subjectName2,avgScore);
                     subjectScore4.put(subjectName2,totalScore2);
-                    System.out.println("======================不等于===================================" + subjectScore2);
                     break;
                 }
                 if(Objects.equals(subjectName1, subjectScore1.get(j+1))){
-                    System.out.println("==========等于=============");
                     subjectNum = subjectScore2.get(subjectName1);
                     subjectNum = subjectNum +1;
                     totalScore2 = subjectScore4.get(subjectName1);
@@ -137,11 +134,36 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
                     avgScore = totalScore2 / subjectNum;
                     subjectScore2.put(subjectName2,subjectNum);
                     subjectScore3.put(subjectName2,avgScore);
-                    System.out.println("========================等于=================================" + subjectScore2);
                     break;
                 }
             }
         }
         return subjectScore3;
+    }
+
+    @Override
+    public Map<String, Object> stuScore() {
+        Map<String, Object> map = new HashMap<>();
+        QueryWrapper<SubjectScoreDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("subject","科技英语阅读");
+        List<SubjectScoreDO> list = (List<SubjectScoreDO>) subjectScoreMapper.selectList(queryWrapper);
+        List listName = new ArrayList<>();
+        List listScore = new ArrayList<>();
+        if(list!=null){
+            //获取学生姓名
+            for(SubjectScoreDO name : list){
+                listName.add(name.getUsername());
+            }
+            map.put("x", listName);
+
+            //获取学生成绩
+            for(SubjectScoreDO score : list){
+                listScore.add(score.getScore());
+            }
+            map.put("y",listScore);
+        }else{
+            map.put("x","无数据");
+        }
+        return map;
     }
 }

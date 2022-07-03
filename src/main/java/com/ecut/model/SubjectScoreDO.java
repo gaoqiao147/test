@@ -37,5 +37,7 @@ public class SubjectScoreDO implements Serializable {
 
     private String date;
 
+    private String pic;
+
 
 }

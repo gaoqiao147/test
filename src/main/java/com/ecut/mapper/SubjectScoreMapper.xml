@@ -10,11 +10,12 @@
         <result column="subject" property="subject" />
         <result column="score" property="score" />
         <result column="date" property="date" />
+        <result column="pic" property="pic" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, usernumber, subject, score, date
+        id, username, usernumber, subject, score, date , pic
     </sql>
 
 </mapper>
