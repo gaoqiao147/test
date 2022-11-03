@@ -74,7 +74,7 @@ public class SubjectStudentController {
     @GetMapping("/redis-cache")
     public ResultVo redisCache() throws JsonProcessingException {
         List<SubjectStudentDO> list = subjectStudentService.allList();
-        if (null == list) {
+        if (list.isEmpty()) {
             return CommonResult.fail();
         } else {
             return CommonResult.success(list);

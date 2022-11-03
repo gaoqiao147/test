@@ -39,6 +39,8 @@ public class SubjectStudentServiceImpl extends ServiceImpl<SubjectStudentMapper,
         List<SubjectStudentDO> list = new ArrayList<>();
         JedisPool pool = RedisUtil.open(Redis.host, Redis.port);
         Jedis jedis = pool.getResource();
+
+
         List<String> redisList = jedis.lrange("list", 0, -1);
         log.info("redis的缓存结果:{}", redisList);
         if (redisList != null && !redisList.isEmpty()) {
@@ -61,6 +63,7 @@ public class SubjectStudentServiceImpl extends ServiceImpl<SubjectStudentMapper,
                 });
             }
         }
+        jedis.close();
         return list;
     }
 }
