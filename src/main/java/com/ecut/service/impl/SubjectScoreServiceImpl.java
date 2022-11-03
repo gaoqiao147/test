@@ -16,11 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.events.Event;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author zhouwei
@@ -28,7 +29,7 @@ import java.util.*;
  */
 @Service
 public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, SubjectScoreDO> implements SubjectScoreService {
-    @Autowired
+    @Resource
     private SubjectScoreMapper subjectScoreMapper;
 
     @Override
@@ -40,13 +41,14 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
 
     /**
      * 根据学期查询学生成绩
+     *
      * @param date 学期
      * @return
      */
     @Override
     public List<SubjectScoreDO> scoreByDate(String date) {
         QueryWrapper<SubjectScoreDO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("date",date);
+        queryWrapper.eq("date", date);
         List<SubjectScoreDO> StudentScoreListByDate = new ArrayList<>();
         StudentScoreListByDate = this.subjectScoreMapper.selectList(queryWrapper);
         return StudentScoreListByDate;
@@ -54,6 +56,7 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
 
     /**
      * 学生成绩的分页实现
+     *
      * @param pageVo 分页
      * @return
      */
@@ -65,13 +68,12 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
         LambdaQueryWrapper<SubjectScoreDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.orderByAsc(SubjectScoreDO::getUsernumber);
         //3.将条件给mybatisPlus中的分页方法
-        Page<SubjectScoreDO> scorePage = subjectScoreMapper.selectPage(page,queryWrapper);
+        Page<SubjectScoreDO> scorePage = subjectScoreMapper.selectPage(page, queryWrapper);
         //4.将查询出的结果赋值给list数组
         List<SubjectScoreDO> scoreListPage = scorePage.getRecords();
-
-        if(scoreListPage == null){
+        if (scoreListPage == null) {
             return CommonResult.fail();
-        }else{
+        } else {
             return CommonResult.success(scoreListPage);
         }
     }
@@ -82,7 +84,7 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
         QueryWrapper<SubjectScoreDO> queryWrapper = new QueryWrapper<>();
         //当Str为空白或者null时，isNotBlank返回false
         //当Str的length>0时，isNotBlank返回true
-        queryWrapper.like(StringUtils.isNotBlank(subject),"subject",subject);
+        queryWrapper.like(StringUtils.isNotBlank(subject), "subject", subject);
         List<SubjectScoreDO> scoreFuzzyQueryList = subjectScoreMapper.selectList(queryWrapper);
         return scoreFuzzyQueryList;
     }
@@ -90,12 +92,18 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
     @Override
     public Map<String, Double> avgSubjectScore() {
         //定义总成绩，平均分，科目数量,科目名字
-        Integer totalScore1; Integer totalScore2 = 0; Double avgScore; Double subjectNum = 1.0; String subjectName1; String subjectName2 = null;Double id = 0.0;
-        Map<String,String> subjectScore = new HashMap<>();
-        Map<Integer,String> subjectScore1 = new HashMap<>();
-        Map<String,Double> subjectScore2 = new HashMap<>();
-        Map<String,Double> subjectScore3 = new HashMap<>();
-        Map<String,Integer> subjectScore4 = new HashMap<>();
+        Integer totalScore1;
+        Integer totalScore2 = 0;
+        Double avgScore;
+        Double subjectNum = 1.0;
+        String subjectName1;
+        String subjectName2 = null;
+        Double id = 0.0;
+        Map<String, String> subjectScore = new HashMap<>();
+        Map<Integer, String> subjectScore1 = new HashMap<>();
+        Map<String, Double> subjectScore2 = new HashMap<>();
+        Map<String, Double> subjectScore3 = new HashMap<>();
+        Map<String, Integer> subjectScore4 = new HashMap<>();
         /**
          * 1.查询出所有的科目，把科目相同的总成绩先算出来
          * 2.总成绩除以总学学生数量
@@ -106,34 +114,34 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
         for (int i = 0; i < allSubjectList.size(); i++) {
             subjectName1 = allSubjectList.get(i).getSubject();
             totalScore1 = allSubjectList.get(i).getScore();
-            subjectScore1.put(i,subjectName1);
-            subjectScore.put(subjectName1,subjectName1);
+            subjectScore1.put(i, subjectName1);
+            subjectScore.put(subjectName1, subjectName1);
             System.out.println(subjectScore1);
             System.out.println(subjectScore.size());
             for (int j = subjectScore.size(); j > 0; j--) {
                 int flag = subjectScore.size();
-                flag -- ;
-                System.out.println("j= "+flag);
-                if((!Objects.equals(subjectName1, subjectScore1.get(j))) && (flag == 1)){
+                flag--;
+                System.out.println("j= " + flag);
+                if ((!Objects.equals(subjectName1, subjectScore1.get(j))) && (flag == 1)) {
                     subjectNum = 1.0;
                     totalScore2 = totalScore1;
                     subjectName2 = subjectName1;
                     System.out.println(subjectScore2);
                     avgScore = totalScore2 / subjectNum;
-                    subjectScore2.put(subjectName2,subjectNum);
-                    subjectScore3.put(subjectName2,avgScore);
-                    subjectScore4.put(subjectName2,totalScore2);
+                    subjectScore2.put(subjectName2, subjectNum);
+                    subjectScore3.put(subjectName2, avgScore);
+                    subjectScore4.put(subjectName2, totalScore2);
                     break;
                 }
-                if(Objects.equals(subjectName1, subjectScore1.get(j+1))){
+                if (Objects.equals(subjectName1, subjectScore1.get(j + 1))) {
                     subjectNum = subjectScore2.get(subjectName1);
-                    subjectNum = subjectNum +1;
+                    subjectNum = subjectNum + 1;
                     totalScore2 = subjectScore4.get(subjectName1);
                     totalScore2 = totalScore1 + totalScore2;
                     System.out.println(subjectScore2);
                     avgScore = totalScore2 / subjectNum;
-                    subjectScore2.put(subjectName2,subjectNum);
-                    subjectScore3.put(subjectName2,avgScore);
+                    subjectScore2.put(subjectName2, subjectNum);
+                    subjectScore3.put(subjectName2, avgScore);
                     break;
                 }
             }
@@ -145,24 +153,48 @@ public class SubjectScoreServiceImpl extends ServiceImpl<SubjectScoreMapper, Sub
     public Map<String, Object> stuScore() {
         Map<String, Object> map = new HashMap<>();
         QueryWrapper<SubjectScoreDO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("subject","科技英语阅读");
+        queryWrapper.eq("subject", "科技英语阅读");
         List<SubjectScoreDO> list = (List<SubjectScoreDO>) subjectScoreMapper.selectList(queryWrapper);
         List listName = new ArrayList<>();
         List listScore = new ArrayList<>();
-        if(list!=null){
+        if (list != null) {
             //获取学生姓名
-            for(SubjectScoreDO name : list){
+            for (SubjectScoreDO name : list) {
                 listName.add(name.getUsername());
             }
             map.put("x", listName);
-
             //获取学生成绩
-            for(SubjectScoreDO score : list){
+            for (SubjectScoreDO score : list) {
                 listScore.add(score.getScore());
             }
-            map.put("y",listScore);
-        }else{
-            map.put("x","无数据");
+            map.put("y", listScore);
+        } else {
+            map.put("x", "无数据");
+        }
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> stuScoreBySubject(String subject) {
+        Map<String, Object> map = new HashMap<>();
+        QueryWrapper<SubjectScoreDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("subject", subject);
+        List<SubjectScoreDO> list = subjectScoreMapper.selectList(queryWrapper);
+        List listName = new ArrayList<>();
+        List listScore = new ArrayList<>();
+        if (list != null) {
+            //获取学生姓名
+            for (SubjectScoreDO name : list) {
+                listName.add(name.getUsername());
+            }
+            map.put("x", listName);
+            //获取学生成绩
+            for (SubjectScoreDO score : list) {
+                listScore.add(score.getScore());
+            }
+            map.put("y", listScore);
+        } else {
+            map.put("x", "无数据");
         }
         return map;
     }

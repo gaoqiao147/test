@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ import java.util.List;
  */
 @Service
 public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginDO> implements LoginService {
-    @Autowired
+    @Resource
     private LoginMapper loginMapper;
 
     @Override

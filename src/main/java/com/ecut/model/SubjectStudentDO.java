@@ -35,5 +35,7 @@ public class SubjectStudentDO implements Serializable {
 
     private String subjectType;
 
+    private String pic;
+
 
 }

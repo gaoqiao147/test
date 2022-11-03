@@ -50,6 +50,7 @@ public class SubjectScoreController {
             return CommonResult.success(studentListScoreByDate);
         }
     }
+
     @PostMapping ("/ScoreByPage")
     public ResultVo allScorePage(@RequestBody PageVo pageVo){
         return subjectScoreService.studentScorePage(pageVo);

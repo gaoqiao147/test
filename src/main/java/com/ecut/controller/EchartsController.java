@@ -25,4 +25,11 @@ public class EchartsController {
         map = subjectScoreService.stuScore();
         return CommonResult.success(map);
     }
+
+    @GetMapping("/stuScoreBySubject/{subject}")
+    public ResultVo stuScoreBySubject(@PathVariable("subject") String subject) {
+        Map<String, Object> map = new HashMap<>();
+        map = subjectScoreService.stuScoreBySubject(subject);
+        return CommonResult.success(map);
+    }
 }

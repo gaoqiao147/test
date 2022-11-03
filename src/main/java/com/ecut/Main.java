@@ -24,7 +24,7 @@ public class Main {
                 // 作者
                 .setAuthor("zhouwei")
                 // 生成路径，最好使用绝对路径
-                //TODO  TODO  TODO  TODO
+                //TODO
                 .setOutputDir("E:\\学习\\Ecut_Student\\src\\main\\java")
                 // 文件覆盖
                 .setFileOverride(true)

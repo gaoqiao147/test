@@ -3,13 +3,20 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/student?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://1.117.87.146:3306/student?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
     username: root
-    password: 123456
+    password: 7237d1396c578497
+
+  activiti:
+    database-schema-update: true
+    db-history-used: true
+    history-level: full
+    check-process-definitions: true
+
 
 #??mybatis-plus
 mybatis-plus:
-  mapper-locations: com/ecut/mapper/*.xml
+  mapper-locations: mapper/*.xml
   global-config:
     db-config:
       id-type: auto

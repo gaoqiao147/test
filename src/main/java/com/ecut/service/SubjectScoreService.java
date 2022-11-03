@@ -61,4 +61,12 @@ public interface SubjectScoreService extends IService<SubjectScoreDO> {
      * @return 学生成绩map集合
      */
     Map<String,Object> stuScore();
+
+    /**
+     * 学生成绩echarts图数据 根据不同的学科展示不同的结果
+     *
+     * @param subject
+     * @return
+     */
+    Map<String, Object> stuScoreBySubject(String subject);
 }
