@@ -1,0 +1,101 @@
+/*
+ Navicat MySQL Data Transfer
+
+ Source Server         : FirstSql
+ Source Server Type    : MySQL
+ Source Server Version : 80028
+ Source Host           : localhost:3306
+ Source Schema         : student
+
+ Target Server Type    : MySQL
+ Target Server Version : 80028
+ File Encoding         : 65001
+
+ Date: 24/08/2022 11:29:10
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for login
+-- ----------------------------
+DROP TABLE IF EXISTS `login`;
+CREATE TABLE `login`  (
+  `usernumber` int NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`username`, `password`, `usernumber`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of login
+-- ----------------------------
+INSERT INTO `login` VALUES (120152, '123456', '周伟');
+INSERT INTO `login` VALUES (120150, '123456', '姜志伟');
+INSERT INTO `login` VALUES (120149, '123456', '李大成');
+INSERT INTO `login` VALUES (120155, '654321', '汪明森');
+
+-- ----------------------------
+-- Table structure for stu_info
+-- ----------------------------
+DROP TABLE IF EXISTS `stu_info`;
+CREATE TABLE `stu_info`  (
+  `id` int NOT NULL,
+  `head_pic` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `age` int NULL DEFAULT NULL,
+  `sex` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `homeland` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of stu_info
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for subject_score
+-- ----------------------------
+DROP TABLE IF EXISTS `subject_score`;
+CREATE TABLE `subject_score`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `usernumber` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `subject` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `score` int NULL DEFAULT NULL,
+  `date` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of subject_score
+-- ----------------------------
+INSERT INTO `subject_score` VALUES (1, '周小伟', '120152', '科技英语写作', 73, '研一下学期', 'https://c-ssl.duitang.com/uploads/item/201501/20/20150120025831_YcUeK.jpeg');
+INSERT INTO `subject_score` VALUES (2, '周小小伟', '120152', '科技英语阅读', 84, '研一上学期', 'https://c-ssl.duitang.com/uploads/item/201501/20/20150120025831_YcUeK.jpeg');
+INSERT INTO `subject_score` VALUES (3, 'tt', '120149', '科技英语写作', 80, '研一下学期', 'https://inews.gtimg.com/newsapp_bt/0/14499058923/1000');
+INSERT INTO `subject_score` VALUES (4, '李大成', '120149', '科技英语阅读', 83, '研一上学期', 'https://inews.gtimg.com/newsapp_bt/0/14499058923/1000');
+INSERT INTO `subject_score` VALUES (5, '姜志伟', '120150', '科技英语阅读', 88, '研一上学期', 'https://image.9game.cn/2019/12/9/127295021.jpg');
+INSERT INTO `subject_score` VALUES (6, '汪明森', '120155', '科技英语阅读', 60, '研一上学期', 'https://c-ssl.duitang.com/uploads/item/201712/26/20171226130301_r8xCv.jpeg');
+
+-- ----------------------------
+-- Table structure for subject_student
+-- ----------------------------
+DROP TABLE IF EXISTS `subject_student`;
+CREATE TABLE `subject_student`  (
+  `id` int NOT NULL,
+  `username` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `usernumber` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `subject` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `subject_type` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of subject_student
+-- ----------------------------
+INSERT INTO `subject_student` VALUES (1, '周伟', '120152', '科技英语阅读', '必修');
+INSERT INTO `subject_student` VALUES (2, '周伟', '120152', '现代传感器技术', '选修');
+
+SET FOREIGN_KEY_CHECKS = 1;
