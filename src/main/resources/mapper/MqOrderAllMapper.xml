@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecut.mapper.MqOrderAllMapper">
+    <insert id="save">
+        insert into mq_order_all(id,order_id,order_name,state,creat_time)
+        values (#{mqOrderAll.id},#{mqOrderAll.orderId},#{mqOrderAll.orderName},#{mqOrderAll.state},#{mqOrderAll.creatTime})
+    </insert>
+    <select id="findOrder" resultType="com.ecut.model.MqOrderAll">
+        select * from mq_order_all where order_id = #{orderId}
+    </select>
+</mapper>

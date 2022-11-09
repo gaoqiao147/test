@@ -35,7 +35,7 @@ mq:
     queue:
       name: ${mq.env}.middleware.mq.dead.queue
     exchange:
-      name: ${mq.env}.middleware.mq.dead.exhange
+      name: ${mq.env}.middleware.mq.dead.exchange
     routing:
       key:
         name: ${mq.env}.middleware.mq.dead.routing.key
@@ -46,9 +46,8 @@ mq:
       key:
         name: ${mq.env}.middleware.mq.producer.routing.key
   customer:
-    real:
-      queue:
-        name: ${mq.env}.middleware.mq.customer.real.queue
+    queue:
+      name: ${mq.env}.middleware.mq.customer.queue
 
 #??mybatis-plus
 mybatis-plus:

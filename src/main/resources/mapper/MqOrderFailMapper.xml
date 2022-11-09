@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecut.mapper.MqOrderFailMapper">
+    <insert id="save">
+        insert into mq_order_fail(id,order_id,order_name,creat_time)
+        values (#{mqOrderFail.id},#{mqOrderFail.orderId},#{mqOrderFail.orderName},#{mqOrderFail.creatTime})
+    </insert>
+</mapper>

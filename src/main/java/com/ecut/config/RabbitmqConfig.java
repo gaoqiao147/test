@@ -117,15 +117,15 @@ public class RabbitmqConfig {
      */
     @Bean
     public Queue basicDeadQueue() {
-        Map<String, Object> args = new HashMap<>(6);
+        Map<String, Object> args = new HashMap<>();
         //死信交换机
-        args.put("x-dead-letters-exchange", env.getProperty("mq.dead.exchange.name"));
+        args.put("x-dead-letter-exchange", env.getProperty("mq.dead.exchange.name"));
         //死信路由
-        args.put("x-dead-letters-routing-key", env.getProperty("mq.dead.routing.key.name"));
+        args.put("x-dead-letter-routing-key", env.getProperty("mq.dead.routing.key.name"));
         //TTL死亡时间
-        args.put("x-message-ttl", 30000);
+        args.put("x-message-ttl", 10000);
         //返回死信队列
-        return new Queue(Objects.requireNonNull(env.getProperty("mq.dead.queue.name")), true, false, false, args);
+        return new Queue(env.getProperty("mq.dead.queue.name"), true, false, false, args);
     }
 
     /**
@@ -149,7 +149,7 @@ public class RabbitmqConfig {
      */
     @Bean
     public Queue basicRealQueue() {
-        return new Queue(Objects.requireNonNull(env.getProperty("mq.customer.real.queue.name")));
+        return new Queue(env.getProperty("mq.customer.queue.name"),true);
     }
 
     /**
@@ -157,7 +157,7 @@ public class RabbitmqConfig {
      */
     @Bean
     public TopicExchange basicDeadExchange() {
-        return new TopicExchange(env.getProperty("mq.dead.exchange.name"));
+        return new TopicExchange(env.getProperty("mq.dead.exchange.name"),true,false);
     }
 
     /**
