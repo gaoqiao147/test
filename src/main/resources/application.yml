@@ -13,6 +13,42 @@ spring:
     history-level: full
     check-process-definitions: true
 
+  rabbitmq:
+    virtual-host: /
+    host: 1.117.87.146
+    port: 5672
+    username: newadmin
+    password: newpassword
+
+mq:
+  env: local
+  basic:
+    info:
+      queue:
+        name: ${mq.env}.middleware.mq.basic.info.queue
+      exchange:
+        name: ${mq.env}.middleware.mq.basic.info.exchange
+      routing:
+        key:
+          name: ${mq.env}.middleware.mq.basic.info.routing.key
+  dead:
+    queue:
+      name: ${mq.env}.middleware.mq.dead.queue
+    exchange:
+      name: ${mq.env}.middleware.mq.dead.exhange
+    routing:
+      key:
+        name: ${mq.env}.middleware.mq.dead.routing.key
+  producer:
+    exchange:
+      name: ${mq.env}.middleware.mq.producer.exchange
+    routing:
+      key:
+        name: ${mq.env}.middleware.mq.producer.routing.key
+  customer:
+    real:
+      queue:
+        name: ${mq.env}.middleware.mq.customer.real.queue
 
 #??mybatis-plus
 mybatis-plus:

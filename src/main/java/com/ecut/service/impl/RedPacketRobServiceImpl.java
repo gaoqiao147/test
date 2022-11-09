@@ -26,14 +26,17 @@ public class RedPacketRobServiceImpl implements RedPacketRobService {
         //通过redis查询该用户是否已经有红包
         String userKey = "userId" + redPacketRob.getUserId();
         String user = jedis.get(userKey);
+        //存在
         if (!StringUtils.isEmpty(user)) {
             map.put("message", "该用户已有红包！");
-        } else {
+        }   //不存在
+            else {
             //从redis根据取出红包，根据redis，更新数据库
             String key = redPacketRob.getRedId();
             String amount = jedis.lpop(key);
             //redis红包数量不为空
             if (!StringUtils.isEmpty(amount)) {
+                //获取当前红包数量 并减1
                 String currentNum = !StringUtils.isEmpty(jedis.get("sender:" + redPacketRob.getSendUserId())) ? jedis.get("sender:" + redPacketRob.getSendUserId()) : "0";
                 int total = Integer.parseInt(currentNum) - 1;
                 jedis.set("sender:" + redPacketRob.getSendUserId(), Integer.toString(total));

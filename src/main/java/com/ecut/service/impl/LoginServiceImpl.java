@@ -3,6 +3,7 @@ package com.ecut.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ecut.model.LoginDO;
 import com.ecut.mapper.LoginMapper;
+import com.ecut.rabbitmq.publisher.LogPublisher;
 import com.ecut.service.LoginService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecut.util.RedisUtil;
@@ -28,6 +29,9 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginDO> implemen
     @Resource
     private LoginMapper loginMapper;
 
+    @Resource
+    LogPublisher logPublisher;
+
     @Override
     public ResultVo loginVerification(LoginDO loginDO) {
         //定义一个公共返回类
@@ -44,6 +48,8 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginDO> implemen
                 if(jedis.get(loginDO.getUsernumber().toString()).equals(loginDO.getPassword())){
                     resultVo.setCode(1);
                     resultVo.setData(jedis.get(loginDO.getUsernumber().toString()));
+                    //发送队列消息
+                    logPublisher.sendLogMsg(loginDO);
                     System.out.println("使用了redis登录成功");
                 }else {
                     resultVo.setCode(-2);
@@ -64,13 +70,15 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginDO> implemen
                     }else{
                         resultVo.setCode(1);
                         resultVo.setData(loginVerify);
+                        //发送队列消息
+                        logPublisher.sendLogMsg(loginDO);
                     }
                 }
                 //在redis创建学生信息
                 jedis.set(loginDO.getUsernumber().toString(),loginDO.getPassword());
             }
-        }finally {
-
+        }catch (Exception e){
+            e.fillInStackTrace();
         }
         return resultVo;
     }

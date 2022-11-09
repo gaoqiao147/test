@@ -5,11 +5,7 @@ import com.ecut.model.LoginDO;
 import com.ecut.service.LoginService;
 import com.ecut.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -27,9 +23,8 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping("/loginVerify")
-    public ResultVo loginVerify(LoginDO loginDO){
-        ResultVo<Object> resultVo = new ResultVo<>();
-        resultVo = loginService.loginVerification(loginDO);
+    public ResultVo loginVerify(@RequestBody LoginDO loginDO){
+        ResultVo<Object> resultVo  = loginService.loginVerification(loginDO);
         return resultVo;
     }
 }
