@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zhouwei
@@ -16,10 +16,18 @@ import java.util.List;
  */
 public interface LoginService extends IService<LoginDO> {
     /**
-     *登陆验证
+     * 登陆验证
      *
      * @param loginDO 登录实体类
      * @return
      */
     ResultVo loginVerification(LoginDO loginDO);
+
+    /**
+     * 注册（redis锁）
+     *
+     * @param loginDO
+     * @return
+     */
+    Integer registered(LoginDO loginDO);
 }

@@ -13,5 +13,12 @@
     <sql id="Base_Column_List">
         usernumber, password, username
     </sql>
+    <insert id="registered">
+        insert into login(usernumber,password,username) values (#{login.usernumber},#{login.password},#{login.username})
+    </insert>
+    <select id="info" resultType="com.ecut.model.LoginDO">
+        select * from login where usernumber = #{usernumber}
+    </select>
+
 
 </mapper>
